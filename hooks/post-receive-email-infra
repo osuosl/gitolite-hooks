@@ -379,7 +379,7 @@ generate_update_branch_email()
 		# anything, so that we can issue a "no new revisions added by this
 		# update" message
 
-		echo $LOGEND
+		#echo $LOGEND
 	else
 		echo "No new revisions were added by this update."
 	fi
@@ -391,11 +391,9 @@ generate_update_branch_email()
 	# interested in what this revision changed - including the undoing of
 	# previous revisions in the case of non-fast forward updates.
 	echo ""
-	echo "Summary of changes:"
+	echo "- Changes -------------------------------------------------------------"
 	git diff-tree --stat --summary --find-copies-harder $oldrev..$newrev
 	
-        echo ""
-	echo "Full changes:"
 	git diff-tree -p --find-copies-harder $oldrev..$newrev | sed -e 's/^diff/\ndiff/'
 }
 
