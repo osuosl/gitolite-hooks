@@ -170,7 +170,7 @@ generate_email()
     echo ""
     echo -e "The $refname_type, $short_refname has been ${change_type}d\n \
         $(generate_${change_type}_${fn_name}_email)" | \
-        /usr/bin/gpg --homedir /root/.gnupg --trust-model always \
+        /usr/bin/sudo /usr/bin/gpg --homedir /root/.gnupg --trust-model always \
         -ear security@osuosl.org
 
 	#generate_email_footer
