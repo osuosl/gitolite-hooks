@@ -178,7 +178,7 @@ generate_email_header()
 	# Generate header
 	cat <<-EOF
 	To: $recipients
-	Subject: g${rev:0:7} - $(git diff-tree --name-only -r $oldrev $newrev | xargs -n1 dirname | tr '\n' ' ' | cut -c-60)
+	Subject: ${subjectprefix} g${rev:0:7} - $(git diff-tree --name-only -r $oldrev $newrev | xargs -n1 dirname | tr '\n' ' ' | cut -c-60)
 	X-Git-Description: $projectdesc
 	X-Git-Refname: $refname
 	X-Git-Reftype: $refname_type
@@ -606,6 +606,7 @@ fi
 recipients=$(git repo-config hooks.mailinglist)
 announcerecipients=$(git repo-config hooks.announcelist)
 envelopesender=$(git-repo-config hooks.envelopesender)
+subjectprefix=$(git repo-config hooks.subjectprefix)
 
 # --- Main loop
 # Allow dual mode: run from the command line just like the update hook, or if
