@@ -176,7 +176,6 @@ generate_email()
 		fn_name=atag
 		;;
 	esac
-	generate_${change_type}_${fn_name}_email
 
 	echo -e "The $refname_type, $short_refname has been ${change_type}d\n \
 		$(generate_${change_type}_${fn_name}_email)" | \
