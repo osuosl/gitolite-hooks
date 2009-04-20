@@ -198,7 +198,6 @@ generate_email_header()
 	X-Git-Oldrev: $oldrev
 	X-Git-Newrev: $newrev
 
-	The $refname_type, $short_refname has been ${change_type}d
 	EOF
 }
 
