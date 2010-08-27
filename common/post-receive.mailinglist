@@ -12,7 +12,7 @@ if [ -n "${send_email}" ] ; then
     else
         hook="/usr/local/share/git/hooks/post-receive-email-infra"
     fi
-    if [ ! -x ${hook} ] ; then
+    if [ ! -f ${hook} ] ; then
         echo "${hook} not found!"
         exit 1
     fi
