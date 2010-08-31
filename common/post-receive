@@ -6,8 +6,11 @@ hooks_path="/usr/local/share/git/hooks/"
 
 if [ -n "${enabled_hooks}" ] ; then
     # change separate to comma
+    OLDIFS="$IFS"
     IFS=","
     for i in $enabled_hooks ; do
+        # reset IFS
+        IFS=$OLDIFS
         # remove extra whitespace
         hook="${hooks_path}${i//[[:space:]]}"
         if [ -f ${hook} ] ; then
