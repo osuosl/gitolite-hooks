@@ -1,0 +1,20 @@
+#!/bin/bash
+# wrapper script for post-recieve
+
+enabled_hooks="$(git config hooks.enabled)"
+hooks_path="/usr/local/share/git/hooks/"
+
+if [ -n "${enabled_hooks}" ] ; then
+    # change separate to comma
+    IFS=","
+    for i in $enabled_hooks ; do
+        # remove extra whitespace
+        hook="${hooks_path}${i//[[:space:]]}"
+        if [ -f ${hook} ] ; then
+            echo "executing ${hook}"
+            . ${hook}
+        else
+            echo "warning: ${hook} not found"
+        fi
+    done
+fi
