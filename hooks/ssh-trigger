@@ -1,10 +1,10 @@
 #!/bin/bash
 # trigger remote ssh commands
 
-sudo="$(git config hooks.sshtrigger_sudo)"
-sshkey="$(git config hooks.sshtrigger_sshkey)"
-sshopts="$(git config hooks.sshtrigger_sshopts)"
-target="$(git config hooks.sshtrigger_target)"
+sudo="$(git config hooks.sshtrigger-sudo)"
+sshkey="$(git config hooks.sshtrigger-sshkey)"
+sshopts="$(git config hooks.sshtrigger-sshopts)"
+target="$(git config hooks.sshtrigger-target)"
 
 if [ -n ${sudo} ] ; then
     sudo /usr/bin/ssh -i ${ssh_key} -o StrictHostKeyChecking=no \
