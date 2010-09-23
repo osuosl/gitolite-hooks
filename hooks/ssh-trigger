@@ -7,9 +7,9 @@ sshopts="$(git config hooks.sshtrigger-sshopts)"
 target="$(git config hooks.sshtrigger-target)"
 
 if [ -n ${sudo} ] ; then
-    sudo /usr/bin/ssh -i ${ssh_key} -o StrictHostKeyChecking=no \
+    sudo /usr/bin/ssh -i ${sshkey} -o StrictHostKeyChecking=no \
         -o BatchMode=yes ${sshopts} ${target} >/dev/null 2>&1
 else
-    /usr/bin/ssh -i ${ssh_key} -o StrictHostKeyChecking=no \
+    /usr/bin/ssh -i ${sshkey} -o StrictHostKeyChecking=no \
         -o BatchMode=yes ${sshopts} ${target} >/dev/null 2>&1
 fi
