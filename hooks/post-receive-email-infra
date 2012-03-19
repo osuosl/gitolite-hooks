@@ -680,6 +680,9 @@ recipients=$(git config hooks.mailinglist)
 announcerecipients=$(git config hooks.announcelist)
 envelopesender=$(git config hooks.envelopesender)
 emailprefix=$(git config hooks.emailprefix)
+if [[ -z "${emailprefix}" ]]; then
+    emailprefix="[${GL_REPOS}]"
+fi
 custom_showrev=$(git config hooks.showrev)
 
 # --- Main loop
