@@ -1,0 +1,71 @@
+#!/bin/bash
+
+BOLD="\033[0m"
+BOLD="\033[1m"
+BLACK="\033[30m"
+GREY="\033[0m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+CYAN="\033[36m"
+WHITE="\033[37m"
+
+# V +1007
+
+# Peff helped:
+# http://thread.gmane.org/gmane.comp.version-control.git/118626
+
+# For Puppet 0.25.x:
+# syntax_check="puppet --color=false --confdir=/tmp --vardir=/tmp --parseonly --ignoreimport"
+#
+# For Puppet 2.7.x:
+# syntax_check="puppet parser validate --ignoreimport"
+#
+# NOTE: There is an outstanding bug against `puppet parser` which causes
+#       the --ignoreimport option to turn the syntax check into a no-op. Until
+#       the bug is resolved, the syntax check hook should not include the
+#       --ignoreimport option and will only work correctly on manifests which
+#       do not contain "import" lines.
+#       See http://projects.puppetlabs.com/issues/9670
+#
+syntax_check="puppet parser validate"
+tmp=$(mktemp /tmp/git.update.XXXXXX)
+log=$(mktemp /tmp/git.update.log.XXXXXX)
+tree=$(mktemp /tmp/git.diff-tree.XXXXXX)
+
+git diff-tree -r "$2" "$3" > $tree
+
+echo
+echo diff-tree:
+cat $tree
+
+exit_status=0
+
+while read old_mode new_mode old_sha1 new_sha1 status name
+do
+  # skip lines showing parent commit
+  test -z "$new_sha1" && continue
+  # skip deletions
+  [ "$new_sha1" = "0000000000000000000000000000000000000000" ] && continue
+  # Only test .pp files
+  if [[ $name =~ [.]pp$ ]]
+  then
+    git cat-file blob $new_sha1 > $tmp
+    set -o pipefail
+    $syntax_check $tmp 2>&1 | sed "s|$tmp|$name|"> $log
+    if [[ $? != 0 ]]
+    then
+      echo
+      echo -e "$(cat $log | sed 's|JOJOMOJO|'\\${RED}${name}\\${NOBOLD}'|')" >&2
+      echo -e "For more details run this: ${CYAN} git diff $old_sha1 $new_sha1 ${NOBOLD}" >&2 
+      echo
+      exit_status=1
+    fi
+  fi
+done < $tree
+
+rm -f $log $tmp $tree
+exit $exit_status
+
