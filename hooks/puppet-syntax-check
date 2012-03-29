@@ -58,7 +58,7 @@ do
     if [[ $? != 0 ]]
     then
       echo
-      echo -e "$(cat $log | sed 's|JOJOMOJO|'\\${RED}${name}\\${NOBOLD}'|')" >&2
+      echo -e "$(cat $log)" >&2
       echo -e "For more details run this: ${CYAN} git diff $old_sha1 $new_sha1 ${NOBOLD}" >&2 
       echo
       exit_status=1
