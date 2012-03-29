@@ -202,9 +202,15 @@ generate_email_header()
 {
 	# --- Email (all stdout will be the email)
 	# Generate header
+    # This will include the header
+    commitmsg=$(git log -n 1 --pretty=oneline --abbrev-commit)
+    if [[ ${#commitmsg} -gt 80 ]]; then
+        # if it is too long, truncate and add ellipsis
+        commitmsg=$(echo $(echo $commitmsg | cut -c 1-77)...)
+    fi
 	cat <<-EOF
 	To: $recipients
-	Subject: ${emailprefix} ${rev:0:7} - $(git diff-tree --name-only -r $oldrev $newrev | xargs -n1 dirname | tr '\n' ' ' | cut -c-60)
+	Subject: ${emailprefix} ${commitmsg}
 	X-Git-Description: $projectdesc
 	X-Git-Refname: $refname
 	X-Git-Reftype: $refname_type
@@ -679,8 +685,13 @@ fi
 recipients=$(git config hooks.mailinglist)
 announcerecipients=$(git config hooks.announcelist)
 envelopesender=$(git config hooks.envelopesender)
+if [[ -z "${envelopesender}" ]]; then
+    # If not set, use the commiter for the from field.
+    envelopesender="$(git log -1 --format=format:'%an <%ae>')"
+fi
 emailprefix=$(git config hooks.emailprefix)
 if [[ -z "${emailprefix}" ]]; then
+    # If not set, use the repo name as an email prefix.
     emailprefix="[${GL_REPO}]"
 fi
 custom_showrev=$(git config hooks.showrev)
