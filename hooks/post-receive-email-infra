@@ -681,7 +681,7 @@ announcerecipients=$(git config hooks.announcelist)
 envelopesender=$(git config hooks.envelopesender)
 emailprefix=$(git config hooks.emailprefix)
 if [[ -z "${emailprefix}" ]]; then
-    emailprefix="[${GL_REPOS}]"
+    emailprefix="[${GL_REPO}]"
 fi
 custom_showrev=$(git config hooks.showrev)
 
