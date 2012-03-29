@@ -2,11 +2,11 @@
 
 CWD=`pwd`
 GITUSER='git'
-GITSERVER='git.organization.com'
-PUPPETSUPERPROJECT='puppet.git'
-SSHKEY=''
+GITSERVER='git.osuosl.org'
+PUPPETSUPERPROJECT='puppet/puppet.git'
+SSHKEY='~git/.ssh/id_rsa.puppet'
 PUPPETUSER='puppet'
-PUPPETSERVER='puppet.organization.com'
+PUPPETSERVER='puppet.osuosl.org'
 
 REPO="$GITUSER@$GITSERVER:$PUPPETUSERPROJECT"
 DEPLOY="/etc/puppet/environments"
