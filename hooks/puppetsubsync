@@ -4,29 +4,31 @@ CWD=`pwd`
 GITUSER='git'
 GITSERVER='git.osuosl.org'
 PUPPETSUPERPROJECT='puppet/puppet.git'
-SSHKEY='~git/.ssh/id_rsa.puppet'
+SSHKEY='/var/lib/gitolite/.ssh/id_rsa.puppet'
 PUPPETUSER='puppet'
-PUPPETSERVER='puppet.osuosl.org'
+PUPPETSERVER='puppet2.osuosl.org'
 
-REPO="$GITUSER@$GITSERVER:$PUPPETUSERPROJECT"
+REPO="${GITUSER}@${GITSERVER}:${PUPPETSUPERPROJECT}"
 DEPLOY="/etc/puppet/environments"
-SSH_ARGS="-i $SSHKEY"
-PUPPETMASTER="$PUPPETUSER@PUPPETSERVER"
+SSH_ARGS="-i ${SSHKEY}"
+PUPPETMASTER="${PUPPETUSER}@${PUPPETSERVER}"
 SYNC_COMMAND="/usr/local/bin/puppetsubsync"
 
+echo "puppetsubsync"
 while read oldrev newrev refname
 do
-  BRANCH=`echo $refname | sed -n 's/^refs\/heads\///p'`
-  if echo $BRANCH | egrep '^t_' > /dev/null; then
+  BRANCH=`echo ${refname} | sed -n 's/^refs\/heads\///p'`
+  echo "Branch is ${BRANCH}"
+  if echo ${BRANCH} | egrep '^t_' > /dev/null; then
 
     echo "Detecting leading t_ on branchname, submodule cloning..."
 
-    [ "$newrev" -eq 0 ] 2> /dev/null && DELETE='--delete' || DELETE=''
+    [ "${newrev}" -eq 0 ] 2> /dev/null && DELETE='--delete' || DELETE=''
 
-    ssh $SSH_ARGS "$PUPPETMASTER" "$SYNC_COMMAND" \
-      --branch "$BRANCH" \
-      --repository "$REPO" \
-      --deploy "$DEPLOY" \
-      $DELETE
+    echo ssh ${SSH_ARGS} "${PUPPETMASTER}" "${SYNC_COMMAND}" \
+      --branch "${BRANCH}" \
+      --repository "${REPO}" \
+      --deploy "${DEPLOY}" \
+      ${DELETE}
   fi
 done
