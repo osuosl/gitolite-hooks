@@ -14,21 +14,22 @@ SSH_ARGS="-i ${SSHKEY}"
 PUPPETMASTER="${PUPPETUSER}@${PUPPETSERVER}"
 SYNC_COMMAND="/usr/local/bin/puppetsubsync"
 
-echo "puppetsubsync"
+SUBSYNC="ssh ${SSH_ARGS} "${PUPPETMASTER}" "${SYNC_COMMAND}""
+
 while read oldrev newrev refname
 do
-  BRANCH=`echo ${refname} | sed -n 's/^refs\/heads\///p'`
-  echo "Branch is ${BRANCH}"
-  if echo ${BRANCH} | egrep '^t_' > /dev/null; then
-
-    echo "Detecting leading t_ on branchname, submodule cloning..."
-
-    [ "${newrev}" -eq 0 ] 2> /dev/null && DELETE='--delete' || DELETE=''
-
-    echo ssh ${SSH_ARGS} "${PUPPETMASTER}" "${SYNC_COMMAND}" \
-      --branch "${BRANCH}" \
-      --repository "${REPO}" \
-      --deploy "${DEPLOY}" \
-      ${DELETE}
-  fi
+    BRANCH=`echo ${refname} | sed -n 's/^refs\/heads\///p'`
+    if [[ "${newrev}" -eq 0 ]]; then
+        # Delete the environment.
+        echo "Deleting environment."
+        ${SUBSYNC} --deploy "${DEPLOY}" --branch "${BRANCH}" --delete
+    elif echo ${BRANCH} | egrep '^t_' > /dev/null; then
+        # Make or update a test environment.
+        echo "Detecting leading t_ on branchname, cloning a testing environment."
+        ${SUBSYNC} --branch "${BRANCH}" --repository "${REPO}" --deploy "${DEPLOY}" --test
+    else
+        # Make or update a standard environment.
+        echo "Cloning a standard environment."
+        ${SUBSYNC} --branch "${BRANCH}" --repository "${REPO}" --deploy "${DEPLOY}"
+    fi
 done
