@@ -5,6 +5,7 @@ enabled_hooks="$(git config hooks.enabled)"
 hooks_path="/usr/local/share/git/hooks/"
 
 if [ -n "${enabled_hooks}" ] ; then
+    read input
     # change separate to comma
     OLDIFS="$IFS"
     IFS=","
@@ -15,7 +16,7 @@ if [ -n "${enabled_hooks}" ] ; then
         hook="${hooks_path}${i//[[:space:]]}"
         if [ -f ${hook} ] ; then
             echo "executing ${hook}"
-            . ${hook}
+            echo $input | . ${hook}
         else
             echo "warning: ${hook} not found"
         fi
