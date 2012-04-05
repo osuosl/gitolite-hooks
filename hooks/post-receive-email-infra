@@ -216,6 +216,7 @@ generate_email_header()
 	X-Git-Reftype: $refname_type
 	X-Git-Oldrev: $oldrev
 	X-Git-Newrev: $newrev
+    From: $envelopsender
 
 	The $refname_type, $short_refname has been ${change_type}d
 	EOF
@@ -650,11 +651,7 @@ show_new_revisions()
 
 send_mail()
 {
-	if [ -n "$envelopesender" ]; then
-		/usr/sbin/sendmail -t -f "$envelopesender"
-	else
-		/usr/sbin/sendmail -t
-	fi
+    /usr/sbin/sendmail -t
 }
 
 # ---------------------------- main()
