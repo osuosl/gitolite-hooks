@@ -203,11 +203,17 @@ generate_email_header()
     # --- Email (all stdout will be the email)
     # Generate header
     # This will include the header
-    commitmsg=$(git log -n 1 --pretty=oneline --abbrev-commit)
+    commitmsg=$(git show $newrev --oneline -s)
     if [[ ${#commitmsg} -gt 80 ]]; then
         # if it is too long, truncate and add ellipsis
         commitmsg=$(echo $(echo $commitmsg | cut -c 1-77)...)
     fi
+
+    numcommits=$(git show ${oldrev}..${newrev} -s --oneline | wc)
+    if [[ $numcommits -gt 1 ]]; then {
+        commitmsg="${commitmsg} [and $(($numcommits - 1)) more]]"
+    }
+
     cat <<-EOF
     To: $recipients
     Subject: ${emailprefix} ${commitmsg}
@@ -684,7 +690,7 @@ announcerecipients=$(git config hooks.announcelist)
 envelopesender=$(git config hooks.envelopesender)
 if [[ -z "${envelopesender}" ]]; then
     # If not set, use the commiter for the from field.
-    envelopesender="$(git log -1 --format=format:'%an <%ae>')"
+    envelopesender="$(git show $newrev --format=format:'%an <%ae>')"
 fi
 emailprefix=$(git config hooks.emailprefix)
 if [[ -z "${emailprefix}" ]]; then
