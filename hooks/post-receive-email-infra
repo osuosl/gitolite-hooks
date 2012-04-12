@@ -210,11 +210,11 @@ generate_email_header()
     fi
 
     numcommits=$(git show ${oldrev}..${newrev} -s --oneline | wc)
-    if [[ $numcommits -gt 1 ]]; then {
+    if [[ $numcommits -gt 1 ]]; then
         commitmsg="${commitmsg} [and $(($numcommits - 1)) more]]"
-    }
+    fi
 
-    cat <<-EOF
+    `cat <<-EOF
     To: $recipients
     Subject: ${emailprefix} ${commitmsg}
     X-Git-Description: $projectdesc
@@ -225,19 +225,19 @@ generate_email_header()
     From: $envelopesender
 
     The $refname_type, $short_refname has been ${change_type}d
-    EOF
+    EOF`
 }
 
 generate_email_footer()
 {
     SPACE=" "
-    cat <<-EOF
+    `cat <<-EOF
 
 
     hooks/post-receive
     --${SPACE}
     $projectdesc
-    EOF
+    EOF`
 }
 
 # --------------- Branches
