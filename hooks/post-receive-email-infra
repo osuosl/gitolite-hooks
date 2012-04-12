@@ -208,7 +208,7 @@ generate_email_header()
         # if it is too long, truncate and add ellipsis
         commitmsg=$(echo $(echo $commitmsg | cut -c 1-77)...)
     fi
-    numcommits=$(git show ${oldrev}..${newrev} -s --oneline | wc)
+    numcommits=$(git show ${oldrev}..${newrev} -s --oneline | wc -l)
     if [[ $numcommits -gt 1 ]]; then
         commitmsg="${commitmsg} [and $(($numcommits - 1)) more]]"
     fi
