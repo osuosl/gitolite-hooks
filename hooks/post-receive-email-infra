@@ -209,9 +209,9 @@ generate_email_header()
         commitmsg=$(echo $(echo $commitmsg | cut -c 1-77)...)
     fi
     numcommits=$(git show ${oldrev}..${newrev} -s --oneline | wc)
-    if [[ $numcommits -gt 1 ]]; then
+    if [[ $numcommits -gt 1 ]]; then {
         commitmsg="${commitmsg} [and $(($numcommits - 1)) more]]"
-    fi
+    }
 
 	cat <<-EOF
 	To: $recipients
