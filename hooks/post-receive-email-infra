@@ -431,9 +431,9 @@ generate_update_branch_email()
 	# non-fast-forward updates.
 	echo ""
 	echo "Summary of changes:"
-	git diff-tree --stat --summary --find-copies-harder $oldrev..$newrev
+	git diff-tree --stat --summary -C -M --find-copies-harder $oldrev..$newrev
 
-	git diff-tree -p --find-copies-harder $oldrev..$newrev | sed -e 's/^diff/\ndiff/'
+	git diff-tree -p -C -M --find-copies-harder $oldrev..$newrev | sed -e 's/^diff/\ndiff/'
 }
 
 #
