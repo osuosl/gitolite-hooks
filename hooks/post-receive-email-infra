@@ -224,6 +224,8 @@ generate_email_header()
 	From: $envelopesender
 
 	The $refname_type, $short_refname has been ${change_type}d
+
+    Old revision: $oldrev, new revision: $newrev.
 	EOF
 }
 
