@@ -1,7 +1,7 @@
 #!/bin/bash
 # push and mirror repo onto github
 
-sudo="$(git config hooks.github_push-sudo)"
+sudo="$(git config hooks.github-push-sudo)"
 
 if [ ! -d refs/remotes/github ] ; then
     echo "error: no github remote set"
