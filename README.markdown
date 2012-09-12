@@ -12,12 +12,12 @@ tied to gitolite itself, however it integrates well.
 
 For now this is a manual installation.
 
-- Clone this repo into /usr/local/share/gitolite-hooks
-- Find where your gitolite installation is at which will generally be in
-  /usr/share/gitolite. 
-- Symlink /usr/local/share/gitolite-hooks/common/post-receive to
-  /usr/share/gitolite/hooks/post-receive. You may need remove the file that
-  already exists.
+1. Clone this repo into /usr/local/share/gitolite-hooks
+1. Find where your gitolite installation is at which will generally be in
+   /usr/share/gitolite. 
+1. Symlink /usr/local/share/gitolite-hooks/common/post-receive to
+   /usr/share/gitolite/hooks/post-receive. You may need remove the file that
+   already exists.
 
 That's it!
 
@@ -25,7 +25,7 @@ That's it!
 
 To enable a hook:
 
-  config    hooks.enabled   = post-receive-email-infra, github-push
+    config    hooks.enabled   = post-receive-email-infra, github-push
 
 *NOTE: Ensure you use a comma as a separator*
 
