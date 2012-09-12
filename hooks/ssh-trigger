@@ -1,5 +1,32 @@
 #!/bin/bash
-# trigger remote ssh commands
+
+# Copyright (c) 2010, 2012 Oregon State University
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with this
+# work for additional information regarding copyright ownership.  The ASF
+# licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations under
+# the License.
+#
+# Trigger remote ssh commands using ssh keys. Useful for wanting to
+# automatically push code updates to server different from where the code repo
+# resides.
+# 
+# Configuration:
+#
+# hooks.sshtrigger-sudo     Execute ssh as root using sudo
+# hooks.sshtrigger-sshkey   Path of private ssh key
+# hooks.sshtrigger-sshopts  Any ssh options you want to pass
+# hooks.sshtrigger-target   Username and host where to execute the command.
 
 sudo="$(git config hooks.sshtrigger-sudo)"
 sshkey="$(git config hooks.sshtrigger-sshkey)"
