@@ -41,7 +41,7 @@ everything assumes a specific path.
 This is like any open source project. If you want a pony, you can contribute it
 via a patch or pull request.
 
-# Copyright (C) 2012 Oregon State University
+## Copyright (C) 2012 Oregon State University
 
 This work is licensed under a [Apache License, Version
 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) (Unless otherwise
