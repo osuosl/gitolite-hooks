@@ -18,7 +18,7 @@
 # Gitolite wrapper script for post-receive
 
 enabled_hooks="$(git config hooks.enabled)"
-hooks_path="/usr/local/share/git/hooks/"
+hooks_path="/usr/local/share/gitolite/hooks/"
 
 if [ -n "${enabled_hooks}" ] ; then
     read input
